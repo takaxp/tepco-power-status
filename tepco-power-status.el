@@ -108,8 +108,8 @@
 		 "Status: GOOD (Change ")
 	       (format "%.2f" used-change) "[GW]) @%s") tepco-power-status-time)
       (sit-for tepco-power-display-change-interval)
-      (setq display-count (1+ display-count))
-      (message nil))))
+      (setq display-count (1+ display-count)))
+    (message nil)))
 
 (defun tepco-power-get-data-list ()
   "Download the power status data from the TEPCO server"
