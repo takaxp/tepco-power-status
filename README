@@ -1,0 +1,104 @@
+# 2011-04-07  Takaaki ISHIKAWA  <takaxp at ieee dot org>
+* 何をするプログラムか
+
+	このプログラムは，
+	「電力の使用状況（東京電力）」を定期的に Emacs のミニバッファに表示します．
+
+	利用するデータは，東京電力のウェブサイト
+	（ http://www.tepco.co.jp/forecast/index-j.html ）にて頒布されている
+	「電力の使用状況データ」
+	http://www.tepco.co.jp/forecast/html/images/juyo-j.csv です．
+
+	プログラムを使うには，別途，curl と perl が必要です．
+	Mac OSX, Linux であれば標準でインストールさていることが多いですが，
+	システムにインストールされていない場合は，適宜 apt-get, port, zypper
+	などを利用してインストールしてください．
+
+* 動作環境
+
+	次の環境で動作確認しています．
+    | Type  | OS            | Emacs                                          |
+    |-------+---------------+------------------------------------------------|
+    | Mac   | OSX 10.6.7    | nextstep 23.3.1, local build with inline-patch |
+    | Linux | openSUSE 11.4 | 23.2.1 with GTK+ 2.22.1                        |
+    | Linux | Ubuntu 10.10  | 23.1.1 with GTK+ 2.22.0                        |
+
+* インストール方法
+** 通常のインストール方法
+	1. tepco-power-status.el をダウンロードする．
+		git clone git://github.com/takaxp/tepco-power-status.git
+			OR
+		https://github.com/takaxp/tepco-power-status からダウンロード
+	2. tepco-power-status.el を load-path 上に保存する．
+
+** auto-install ユーザ向けの方法
+	以下を評価してください．
+	(auto-install-from-url
+		"http://dl.dropbox.com/u/2440/2011/tepco-power-status.el")
+	このファイルは，GitHub のデータと同期されています．
+	リンク切れの場合は，GitHub からダウンロードしてください．
+
+* 一般的な設定
+
+	1. (requre 'tepco-power-status) を .emacs などに記載する．
+	2. M-x tepco-power-status で，電力の使用状況を表示する．
+	3. 必要に応じて，ユーザ設定パラメータを指定する．
+
+* ユーザ設定パラメータ
+** tepco-power-status-interval (=3600)
+	利用状況をミニバッファに表示する周期を指定します．
+	デフォルトでは，3600[秒]=1[時間] です．
+	30[分]以下の周期で更新してもあまり意味がないかもしれません．
+
+** tepco-power-display-change-interval (=3)
+	利用状況は，
+	A. 電力使用率（=最新の利用実績／ピーク時供給電力）の表示
+	B. 前日の同じ時間との差分電力（実績ベース）の表示
+	の2つを順番に表示します．
+	このパラメータでは，AとBの表示の間隔を指定します．
+	デフォルトでは，3[秒] です．
+	
+** tepco-power-display-blink (=2)
+	利用状況の表示（A => B）を何度繰返し表示するかを指定します．
+	デフォルトでは，2回です．A => B => A => Bで表示を終えます．
+
+** tepco-power-command-curl (="curl")
+	curl をフルパス指定します．
+	デフォルトではフルパス指定していません．
+	(setq tepco-power-command-curl "/opt/local/bin/curl") 
+	のように指定してください．
+
+** tepco-power-command-perl (="perl")
+	perl をフルパス指定します．
+	デフォルトではフルパス指定していません．
+	(setq tepco-power-command-perl "/opt/local/bin/perl") 
+	のように指定してください．
+
+** tepco-power-proxy (=nil)
+	プロキシサーバを指定します．
+	デフォルトでは指定されていません．
+	(setq tepco-power-command-perl "http://your.proxy.server:8080/") 
+	のように指定してください．
+
+* どのように実現しているか
+  - curl を利用して，利用状況のデータを取得する
+  - 取得データを perl の正規表現を利用して必要な情報に加工
+  - ミニバッファに表示
+
+* ライセンス
+	Copyright (C) 2011 Takaaki ISHIKAWA
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GNU Emacs; see the file COPYING.  If not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301, USA.
