@@ -33,8 +33,9 @@
 
 ** auto-install ユーザ向けの方法
 	以下を評価してください．
-	(auto-install-from-url
-		"http://dl.dropbox.com/u/2440/2011/tepco-power-status.el ")
+	(auto-install-from-url "
+		http://dl.dropbox.com/u/2440/2011/tepco-power-status.el
+	")
 	このファイルは，GitHub のデータと同期されています．
 	リンク切れの場合は，GitHub からダウンロードしてください．
 
