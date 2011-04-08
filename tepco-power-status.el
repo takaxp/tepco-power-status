@@ -32,6 +32,7 @@
 ;;    curl, perl
 ;;
 ;;; History:
+;;    v1.0.3 (2011-04-09@00:00) # Accept a new data format
 ;;    v1.0.1 (2011-04-07@15:11) # Publish tepco-power-status.el on GitHub
 ;;    v0.4.3 (2011-03-28@13:42) # Add a user variable related to PROXY server
 ;;    v0.4.1 (2011-03-28@01:51) # No longer use a cache directory and wget
@@ -112,7 +113,7 @@
   (let ((data-list (tepco-power-get-data-list)))
     (cond ((eq nil data-list) nil)
 	  (t
-	   (let ((current-index 2)
+	   (let ((current-index 3)
 		 (yesterday-result "0"))	
 	     (setq tepco-power-capacity
 		   (string-to-number (nth 0 data-list)))
